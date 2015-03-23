@@ -201,8 +201,6 @@ taskEntry task =
           , autofocus True
           , value task
           , name "newTodo"
-          , on "input" targetValue (Signal.send updates << UpdateField)
-          , onEnter (Signal.send updates Add)
           ]
           []
       ]
