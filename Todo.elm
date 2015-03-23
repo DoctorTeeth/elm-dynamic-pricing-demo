@@ -26,6 +26,7 @@ import Maybe
 import Signal
 import String
 import Window
+import Time (every, second)
 
 ---- MODEL ----
 
