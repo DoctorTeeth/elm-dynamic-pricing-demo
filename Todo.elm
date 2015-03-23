@@ -36,6 +36,10 @@ type alias Model =
     , field      : String
     , uid        : Int
     , visibility : String
+    , sales      : Int
+    , revenue    : Int
+    , price      : Int
+    , timeLeft   : Int
     }
 
 type alias Task =
@@ -59,8 +63,11 @@ emptyModel =
     , visibility = "All"
     , field = ""
     , uid = 0
+    , sales = 0
+    , revenue = 0
+    , price = 100 
+    , timeLeft = 120 
     }
-
 
 ---- UPDATE ----
 
@@ -142,7 +149,7 @@ view model =
           , lazy2 taskList model.visibility model.tasks
           , lazy2 controls model.visibility model.tasks
           ]
-      , infoFooter
+      , otherFooter model 
       ]
 
 onEnter : Signal.Message -> Attribute
@@ -159,10 +166,10 @@ taskEntry : String -> Html
 taskEntry task =
     header 
       [ id "header" ]
-      [ h1 [] [ text "todos" ]
+      [ h1 [] [ text "Pricefly" ]
       , input
           [ id "new-todo"
-          , placeholder "What needs to be done?"
+          , placeholder "Type some shit"
           , autofocus True
           , value task
           , name "newTodo"
@@ -281,18 +288,15 @@ visibilitySwap uri visibility actualVisibility =
       [ onClick (Signal.send updates (ChangeVisibility visibility)) ]
       [ a [ class className, href uri ] [ text visibility ] ]
 
-infoFooter : Html
-infoFooter =
+otherFooter : Model -> Html
+otherFooter model =
     footer [ id "info" ]
-      [ p [] [ text "Double-click to edit a todo" ]
-      , p [] [ text "Written by "
-             , a [ href "https://github.com/evancz" ] [ text "Evan Czaplicki" ]
-             ]
-      , p [] [ text "Part of "
-             , a [ href "http://todomvc.com" ] [ text "TodoMVC" ]
-             ]
+      [
+        p [] [ text ("sales: " ++ (toString model.sales)) ]
+      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
+      , p [] [ text ("price: " ++ (toString model.price)) ]
+      , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
       ]
-
 
 ---- INPUTS ----
 
@@ -306,7 +310,7 @@ model = Signal.foldp update initialModel (Signal.subscribe updates)
 
 initialModel : Model
 initialModel =
-  Maybe.withDefault emptyModel getStorage
+  Maybe.withDefault emptyModel Nothing 
 
 -- updates from user input
 updates : Signal.Channel Action
@@ -327,7 +331,7 @@ port focus =
 
 
 -- interactions with localStorage to save the model
-port getStorage : Maybe Model
+--port getStorage : Maybe Model
 
-port setStorage : Signal Model
-port setStorage = model
+--port setStorage : Signal Model
+--port setStorage = model
