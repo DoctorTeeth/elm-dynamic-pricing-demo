@@ -275,7 +275,6 @@ controls visibility tasks =
       , button
           [ class "clear-completed"
           , id "clear-completed"
-          , hidden (tasksCompleted == 0)
           , onClick (Signal.send updates DeleteComplete)
           ]
           [ text ("Clear completed (" ++ toString tasksCompleted ++ ")") ]
