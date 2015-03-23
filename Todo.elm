@@ -32,7 +32,6 @@ import Window
 -- The full application state of our todo app.
 type alias Model =
     { tasks      : List Task
-    , visibility : String
     , sales      : Int
     , revenue    : Int
     , price      : Int
@@ -51,7 +50,6 @@ newTask desc =
 emptyModel : Model
 emptyModel =
     { tasks = []
-    , visibility = "All"
     , sales = 0
     , revenue = 0
     , price = 100 
@@ -109,8 +107,8 @@ view model =
       [ section
           [ id "todoapp" ]
           [ lazy taskEntry "" 
-          , lazy2 taskList model.visibility model.tasks
-          , lazy3 controls model.visibility model.tasks model.tickets
+          , lazy taskList model.tasks
+          , lazy2 controls model.tasks model.tickets
           ]
       , otherFooter model 
       ]
@@ -140,8 +138,8 @@ taskEntry task =
           []
       ]
 
-taskList : String -> List Task -> Html
-taskList visibility tasks =
+taskList : List Task -> Html
+taskList tasks =
     let cssVisibility = if List.isEmpty tasks 
                            then "hidden" 
                            else "visible"
@@ -176,8 +174,8 @@ todoItem todo =
           []
       ]
 
-controls : String -> List Task -> Int -> Html
-controls visibility tasks tickets =
+controls : List Task -> Int -> Html
+controls tasks tickets =
     let totalSales = List.length tasks 
         ticketsLeft = tickets - totalSales 
         ticket_ = if ticketsLeft == 1 then " ticket" else " tickets"
