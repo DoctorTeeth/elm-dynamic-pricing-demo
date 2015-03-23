@@ -32,7 +32,6 @@ import Window
 -- The full application state of our todo app.
 type alias Model =
     { tasks      : List Task
-    , field      : String
     , uid        : Int
     , visibility : String
     , sales      : Int
@@ -58,7 +57,6 @@ emptyModel : Model
 emptyModel =
     { tasks = []
     , visibility = "All"
-    , field = ""
     , uid = 0
     , sales = 0
     , revenue = 0
@@ -75,9 +73,7 @@ emptyModel =
 -- some alternatives: http://elm-lang.org/learn/Architecture.elm
 type Action
     = NoOp
-    | UpdateField String
     | UpdateTask Int String
-    | Add
     | Delete Int
     | ChangeVisibility String
     | MakePurchase
@@ -88,19 +84,6 @@ update : Action -> Model -> Model
 update action model =
     case action of
       NoOp -> model
-
-      Add ->
-          { model |
-              uid <- model.uid + 1,
-              field <- "",
-              tasks <-
-                  if String.isEmpty model.field
-                    then model.tasks
-                    else model.tasks ++ [newTask model.field model.uid]
-          }
-
-      UpdateField str ->
-          { model | field <- str }
 
       UpdateTask id task ->
           let updateTask t = if t.id == id then { t | description <- task } else t
@@ -118,7 +101,6 @@ update action model =
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
               uid <- model.uid + 1,
-              field <- "",
               tasks <-
                     model.tasks ++ [newTask (toString model.price) model.uid],
               price <- priceTickets model
@@ -147,7 +129,7 @@ view model =
       ]
       [ section
           [ id "todoapp" ]
-          [ lazy taskEntry model.field
+          [ lazy taskEntry "" 
           , lazy2 taskList model.visibility model.tasks
           , lazy3 controls model.visibility model.tasks model.tickets
           ]
