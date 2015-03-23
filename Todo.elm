@@ -319,17 +319,3 @@ initialModel =
 updates : Signal.Channel Action
 updates = Signal.channel NoOp
 
-port focus : Signal String
-port focus =
-    let needsFocus act =
-            case act of
-              EditingTask id bool -> bool
-              _ -> False
-
-        toSelector (EditingTask id _) = ("#todo-" ++ toString id)
-    in
-        Signal.subscribe updates
-          |> Signal.keepIf needsFocus (EditingTask 0 True)
-          |> Signal.map toSelector
-
-
