@@ -32,7 +32,6 @@ import Window
 -- The full application state of our todo app.
 type alias Model =
     { tasks      : List Task
-    , uid        : Int
     , visibility : String
     , sales      : Int
     , revenue    : Int
@@ -43,21 +42,16 @@ type alias Model =
     }
 
 type alias Task =
-    { description : String
-    , id          : Int
-    }
+    { description : String}
 
-newTask : String -> Int -> Task
-newTask desc id =
-    { description = desc
-    , id = id
-    }
+newTask : String -> Task
+newTask desc =
+    { description = desc}
 
 emptyModel : Model
 emptyModel =
     { tasks = []
     , visibility = "All"
-    , uid = 0
     , sales = 0
     , revenue = 0
     , price = 100 
@@ -73,9 +67,6 @@ emptyModel =
 -- some alternatives: http://elm-lang.org/learn/Architecture.elm
 type Action
     = NoOp
-    | UpdateTask Int String
-    | Delete Int
-    | ChangeVisibility String
     | MakePurchase
     | Reset 
 
@@ -85,24 +76,12 @@ update action model =
     case action of
       NoOp -> model
 
-      UpdateTask id task ->
-          let updateTask t = if t.id == id then { t | description <- task } else t
-          in
-              { model | tasks <- List.map updateTask model.tasks }
-
-      Delete id ->
-          { model | tasks <- List.filter (\t -> t.id /= id) model.tasks }
-
-      ChangeVisibility visibility ->
-          { model | visibility <- visibility }
-
       MakePurchase ->
           { model |
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
-              uid <- model.uid + 1,
               tasks <-
-                    model.tasks ++ [newTask (toString model.price) model.uid],
+                    model.tasks ++ [newTask (toString model.price) ],
               price <- priceTickets model
           }
 
@@ -197,8 +176,6 @@ todoItem todo =
           [ class "edit"
           , value todo.description
           , name "title"
-          , id ("todo-" ++ toString todo.id)
-          , on "input" targetValue (Signal.send updates << UpdateTask todo.id)
           ]
           []
       ]
@@ -231,13 +208,6 @@ controls visibility tasks tickets =
           ]
           [ text ("Simulate Purchase") ]
       ]
-
-visibilitySwap : String -> String -> String -> Html
-visibilitySwap uri visibility actualVisibility =
-    let className = if visibility == actualVisibility then "selected" else "" in
-    li
-      [ onClick (Signal.send updates (ChangeVisibility visibility)) ]
-      [ a [ class className, href uri ] [ text visibility ] ]
 
 otherFooter : Model -> Html
 otherFooter model =
