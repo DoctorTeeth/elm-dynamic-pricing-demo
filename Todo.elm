@@ -40,6 +40,7 @@ type alias Model =
     , revenue    : Int
     , price      : Int
     , timeLeft   : Int
+    , tickets    : Int 
     }
 
 type alias Task =
@@ -67,6 +68,7 @@ emptyModel =
     , revenue = 0
     , price = 100 
     , timeLeft = 120 
+    , tickets = 10
     }
 
 ---- UPDATE ----
@@ -85,6 +87,7 @@ type Action
     | Check Int Bool
     | CheckAll Bool
     | ChangeVisibility String
+    | MakePurchase
 
 -- How we update our Model on a given Action?
 update : Action -> Model -> Model
@@ -134,6 +137,11 @@ update action model =
       ChangeVisibility visibility ->
           { model | visibility <- visibility }
 
+      MakePurchase ->
+          { model |
+              sales <- model.sales + 1,
+              revenue <- model.revenue + model.price
+          }
 
 ---- VIEW ----
 
@@ -257,7 +265,6 @@ controls visibility tasks =
     in
     footer
       [ id "footer"
-      , hidden (List.isEmpty tasks)
       ]
       [ span
           [ id "todo-count" ]
@@ -275,9 +282,9 @@ controls visibility tasks =
       , button
           [ class "clear-completed"
           , id "clear-completed"
-          , onClick (Signal.send updates DeleteComplete)
+          , onClick (Signal.send updates MakePurchase)
           ]
-          [ text ("Clear completed (" ++ toString tasksCompleted ++ ")") ]
+          [ text ("Simulate Purchase") ]
       ]
 
 visibilitySwap : String -> String -> String -> Html
