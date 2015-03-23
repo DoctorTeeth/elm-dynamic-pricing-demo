@@ -143,6 +143,10 @@ update action model =
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
               tickets <- model.tickets - 1 
+              uid <- model.uid + 1,
+              field <- "",
+              tasks <-
+                    model.tasks ++ [newTask (toString model.price) model.uid]
           }
 
       Reset -> emptyModel
