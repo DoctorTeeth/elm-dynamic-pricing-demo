@@ -39,6 +39,7 @@ type alias Model =
     , revenue    : Int
     , price      : Int
     , timeLeft   : Int
+    , totalTime  : Int
     , tickets    : Int 
     }
 
@@ -67,6 +68,7 @@ emptyModel =
     , revenue = 0
     , price = 100 
     , timeLeft = 120 
+    , totalTime = 120 
     , tickets = 10
     }
 
@@ -144,10 +146,22 @@ update action model =
               uid <- model.uid + 1,
               field <- "",
               tasks <-
-                    model.tasks ++ [newTask (toString model.price) model.uid]
+                    model.tasks ++ [newTask (toString model.price) model.uid],
+              price <- priceTickets model
           }
 
       Reset -> emptyModel
+
+---- Utility Functions for Updating the Price
+--priceTickets : Int -> Int -> Int -> Int -> Int
+priceTickets model = 
+  let tt = toFloat model.totalTime
+      tu = toFloat (model.totalTime - model.timeLeft)
+      it = toFloat model.tickets
+      iu = toFloat model.sales
+  in if (tu / tt) > (iu / it) 
+        then model.price - 1
+        else model.price + 1
 
 ---- VIEW ----
 
@@ -224,21 +238,9 @@ todoItem todo =
       [ class className ]
       [ div
           [ class "view" ]
-          [ input
-              [ class "toggle"
-              , type' "checkbox"
-              , checked todo.completed
-              , onClick (Signal.send updates (Check todo.id (not todo.completed)))
-              ]
-              []
-          , label
-              [ onDoubleClick (Signal.send updates (EditingTask todo.id True)) ]
+          [ label
+              [ onDoubleClick (Signal.send updates (NoOp)) ]
               [ text todo.description ]
-          , button
-              [ class "destroy"
-              , onClick (Signal.send updates (Delete todo.id))
-              ]
-              []
           ]
       , input
           [ class "edit"
