@@ -88,6 +88,7 @@ type Action
     | CheckAll Bool
     | ChangeVisibility String
     | MakePurchase
+    | Reset 
 
 -- How we update our Model on a given Action?
 update : Action -> Model -> Model
@@ -143,6 +144,8 @@ update action model =
               revenue <- model.revenue + model.price,
               tickets <- model.tickets - 1 
           }
+
+      Reset -> emptyModel
 
 ---- VIEW ----
 
@@ -272,14 +275,12 @@ controls visibility tasks ticketsLeft =
           [ strong [] [ text (toString tasksLeft) ]
           , text (item_ ++ " left")
           ]
-      , ul -- this should be where we put the reset button
-          [ id "filters" ]
-          [ visibilitySwap "#/" "All" visibility
-          , text " "
-          , visibilitySwap "#/active" "Active" visibility
-          , text " "
-          , visibilitySwap "#/completed" "Completed" visibility
+      , button
+          [ class "clear-completed"
+          , id "clear-completed"
+          , onClick (Signal.send updates Reset)
           ]
+          [ text ("Reset") ]
       , button
           [ class "clear-completed"
           , id "clear-completed"
