@@ -142,7 +142,6 @@ update action model =
           { model |
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
-              tickets <- model.tickets - 1 
               uid <- model.uid + 1,
               field <- "",
               tasks <-
@@ -266,18 +265,18 @@ todoItem todo =
       ]
 
 controls : String -> List Task -> Int -> Html
-controls visibility tasks ticketsLeft =
-    let tasksCompleted = List.length (List.filter .completed tasks)
-        tasksLeft = List.length tasks - tasksCompleted
-        item_ = if tasksLeft == 1 then " item" else " items"
+controls visibility tasks tickets =
+    let totalSales = List.length tasks 
+        ticketsLeft = tickets - totalSales 
+        ticket_ = if ticketsLeft == 1 then " ticket" else " tickets"
     in
     footer
       [ id "footer"
       ]
       [ span
           [ id "todo-count" ]
-          [ strong [] [ text (toString tasksLeft) ]
-          , text (item_ ++ " left")
+          [ strong [] [ text (toString ticketsLeft) ]
+          , text (ticket_ ++ " left")
           ]
       , button
           [ class "clear-completed"
