@@ -222,11 +222,7 @@ main = Signal.map view model
 
 -- manage the model of our application over time
 model : Signal Model
-model = Signal.foldp update initialModel (Signal.subscribe updates)
-
-initialModel : Model
-initialModel =
-  Maybe.withDefault emptyModel Nothing 
+model = Signal.foldp update emptyModel (Signal.subscribe updates)
 
 -- updates from user input
 updates : Signal.Channel Action
