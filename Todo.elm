@@ -57,7 +57,7 @@ emptyModel =
     , price = 100 
     , timeLeft = 120 
     , totalTime = 120 
-    , tickets = 10
+    , tickets = 5 
     }
 
 ---- UPDATE ----
@@ -142,13 +142,9 @@ taskEntry task =
 
 taskList : String -> List Task -> Html
 taskList visibility tasks =
-    let isVisible todo =
-            case visibility of
-              "Completed" -> True 
-              "Active" -> True 
-              "All" -> True
-
-        cssVisibility = if List.isEmpty tasks then "hidden" else "visible"
+    let cssVisibility = if List.isEmpty tasks 
+                           then "hidden" 
+                           else "visible"
     in
     section
       [ id "main"
@@ -156,7 +152,7 @@ taskList visibility tasks =
       ]
       [ ul
           [ id "todo-list" ]
-          (List.map todoItem (List.filter isVisible tasks))
+          (List.map todoItem tasks)
       ]
 
 todoItem : Task -> Html
