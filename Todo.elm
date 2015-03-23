@@ -26,7 +26,7 @@ import Maybe
 import Signal
 import String
 import Window
-import Time (every, second)
+import Time (..)
 
 ---- MODEL ----
 
@@ -70,8 +70,23 @@ type Action
     | Reset 
 
 -- How we update our Model on a given Action?
-update : Action -> Model -> Model
-update action model =
+processInput : Input -> Model -> Model
+processInput input model = 
+  case input of 
+    Clicky action -> processAction action model
+    TimeStep time -> processTime time model
+
+processTime : Time -> Model -> Model
+processTime time model = 
+  if model.timeLeft <= 0 
+     then model
+     else {model | 
+            timeLeft <- model.timeLeft - 1,
+            price <- priceTickets model
+          }
+
+processAction : Action -> Model -> Model
+processAction action model =
     case action of
       NoOp -> model
 
@@ -223,9 +238,20 @@ main = Signal.map view model
 
 -- manage the model of our application over time
 model : Signal Model
-model = Signal.foldp update emptyModel (Signal.subscribe updates)
+model = Signal.foldp processInput emptyModel (inputs)
 
 -- updates from user input
 updates : Signal.Channel Action
 updates = Signal.channel NoOp
 
+-- merge signals from user input and time passing
+type Input = Clicky Action | TimeStep Time
+
+inputs : Signal Input
+inputs = Signal.merge actionSig timeSig
+
+actionSig : Signal Input 
+actionSig = Signal.map Clicky (Signal.subscribe updates)
+
+timeSig : Signal Input 
+timeSig = Signal.map TimeStep (every second)
