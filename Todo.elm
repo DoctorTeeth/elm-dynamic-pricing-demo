@@ -45,16 +45,12 @@ type alias Model =
 
 type alias Task =
     { description : String
-    , completed   : Bool
-    , editing     : Bool
     , id          : Int
     }
 
 newTask : String -> Int -> Task
 newTask desc id =
     { description = desc
-    , completed = False 
-    , editing = False
     , id = id
     }
 
@@ -80,13 +76,9 @@ emptyModel =
 type Action
     = NoOp
     | UpdateField String
-    | EditingTask Int Bool
     | UpdateTask Int String
     | Add
     | Delete Int
-    | DeleteComplete
-    | Check Int Bool
-    | CheckAll Bool
     | ChangeVisibility String
     | MakePurchase
     | Reset 
@@ -110,11 +102,6 @@ update action model =
       UpdateField str ->
           { model | field <- str }
 
-      EditingTask id isEditing ->
-          let updateTask t = if t.id == id then { t | editing <- isEditing } else t
-          in
-              { model | tasks <- List.map updateTask model.tasks }
-
       UpdateTask id task ->
           let updateTask t = if t.id == id then { t | description <- task } else t
           in
@@ -122,19 +109,6 @@ update action model =
 
       Delete id ->
           { model | tasks <- List.filter (\t -> t.id /= id) model.tasks }
-
-      DeleteComplete ->
-          { model | tasks <- List.filter (not << .completed) model.tasks }
-
-      Check id isCompleted ->
-          let updateTask t = if t.id == id then { t | completed <- isCompleted } else t
-          in
-              { model | tasks <- List.map updateTask model.tasks }
-
-      CheckAll isCompleted ->
-          let updateTask t = { t | completed <- isCompleted }
-          in
-              { model | tasks <- List.map updateTask model.tasks }
 
       ChangeVisibility visibility ->
           { model | visibility <- visibility }
@@ -209,11 +183,9 @@ taskList : String -> List Task -> Html
 taskList visibility tasks =
     let isVisible todo =
             case visibility of
-              "Completed" -> todo.completed
-              "Active" -> not todo.completed
+              "Completed" -> True 
+              "Active" -> True 
               "All" -> True
-
-        allCompleted = List.all .completed tasks
 
         cssVisibility = if List.isEmpty tasks then "hidden" else "visible"
     in
@@ -228,8 +200,7 @@ taskList visibility tasks =
 
 todoItem : Task -> Html
 todoItem todo =
-    let className = (if todo.completed then "completed " else "") ++
-                    (if todo.editing   then "editing"    else "")
+    let className = ""
     in
 
     li
@@ -246,8 +217,6 @@ todoItem todo =
           , name "title"
           , id ("todo-" ++ toString todo.id)
           , on "input" targetValue (Signal.send updates << UpdateTask todo.id)
-          , onBlur (Signal.send updates (EditingTask todo.id False))
-          , onEnter (Signal.send updates (EditingTask todo.id False))
           ]
           []
       ]
