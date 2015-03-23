@@ -19,7 +19,7 @@ http://elm-lang.org/learn/Architecture.elm
 import Html (..)
 import Html.Attributes (..)
 import Html.Events (..)
-import Html.Lazy (lazy, lazy2)
+import Html.Lazy (lazy, lazy2, lazy3)
 import Json.Decode as Json
 import List
 import Maybe
@@ -140,7 +140,8 @@ update action model =
       MakePurchase ->
           { model |
               sales <- model.sales + 1,
-              revenue <- model.revenue + model.price
+              revenue <- model.revenue + model.price,
+              tickets <- model.tickets - 1 
           }
 
 ---- VIEW ----
@@ -155,7 +156,7 @@ view model =
           [ id "todoapp" ]
           [ lazy taskEntry model.field
           , lazy2 taskList model.visibility model.tasks
-          , lazy2 controls model.visibility model.tasks
+          , lazy3 controls model.visibility model.tasks model.tickets
           ]
       , otherFooter model 
       ]
@@ -177,7 +178,7 @@ taskEntry task =
       [ h1 [] [ text "Pricefly" ]
       , input
           [ id "new-todo"
-          , placeholder "Type some shit"
+          , placeholder "Get rid of me"
           , autofocus True
           , value task
           , name "newTodo"
@@ -257,8 +258,8 @@ todoItem todo =
           []
       ]
 
-controls : String -> List Task -> Html
-controls visibility tasks =
+controls : String -> List Task -> Int -> Html
+controls visibility tasks ticketsLeft =
     let tasksCompleted = List.length (List.filter .completed tasks)
         tasksLeft = List.length tasks - tasksCompleted
         item_ = if tasksLeft == 1 then " item" else " items"
@@ -271,7 +272,7 @@ controls visibility tasks =
           [ strong [] [ text (toString tasksLeft) ]
           , text (item_ ++ " left")
           ]
-      , ul
+      , ul -- this should be where we put the reset button
           [ id "filters" ]
           [ visibilitySwap "#/" "All" visibility
           , text " "
@@ -282,6 +283,7 @@ controls visibility tasks =
       , button
           [ class "clear-completed"
           , id "clear-completed"
+          , hidden (ticketsLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Simulate Purchase") ]
@@ -302,6 +304,7 @@ otherFooter model =
       , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
       , p [] [ text ("price: " ++ (toString model.price)) ]
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
+      , p [] [ text ("tickets: " ++ (toString model.tickets)) ]
       ]
 
 ---- INPUTS ----
