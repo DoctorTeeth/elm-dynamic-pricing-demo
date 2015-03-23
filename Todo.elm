@@ -27,7 +27,6 @@ import Signal
 import String
 import Window
 
-
 ---- MODEL ----
 
 -- The full application state of our todo app.
@@ -210,18 +209,7 @@ taskList visibility tasks =
       [ id "main"
       , style [ ("visibility", cssVisibility) ]
       ]
-      [ input
-          [ id "toggle-all"
-          , type' "checkbox"
-          , name "toggle"
-          , checked allCompleted
-          , onClick (Signal.send updates (CheckAll (not allCompleted)))
-          ]
-          []
-      , label
-          [ for "toggle-all" ]
-          [ text "Mark all as complete" ]
-      , ul
+      [ ul
           [ id "todo-list" ]
           (List.map todoItem (List.filter isVisible tasks))
       ]
