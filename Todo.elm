@@ -333,8 +333,3 @@ port focus =
           |> Signal.map toSelector
 
 
--- interactions with localStorage to save the model
---port getStorage : Maybe Model
-
---port setStorage : Signal Model
---port setStorage = model
