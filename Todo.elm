@@ -90,7 +90,7 @@ processAction action model =
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
               tasks <-
-                    model.tasks ++ [newTask (toSale model.price model.timeLeft) ],
+                    (newTask (toSale model.price model.timeLeft) ) :: model.tasks,
               price <- priceTickets model
           }
 
