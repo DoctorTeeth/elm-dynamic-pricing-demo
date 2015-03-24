@@ -127,6 +127,7 @@ transform suggestion model =
 
 view : Model -> Html
 view model =
+  div [ class "foo"] [
     div
       [ class "todomvc-wrapper"
       , style [ ("visibility", "hidden") ]
@@ -138,7 +139,21 @@ view model =
           , lazy3 controls model.tasks model.tickets model.timeLeft
           ]
       , otherFooter model 
+      ],
+    div
+      [ class "inner-bro"]
+      [ section
+          [ id "augie" ]
+          [ lazy augieEntry "" 
+          ]
       ]
+    ]
+
+augieEntry : String -> Html
+augieEntry task =
+   p 
+      [ id "augieP" ]
+      [text "This is my SHIT"]
 
 taskEntry : String -> Html
 taskEntry task =
