@@ -175,7 +175,7 @@ label[for='toggle-all'] {
 
 #todo-list li {
     position: relative;
-    font-size: 24px;
+    font-size: 16px;
     border-bottom: 1px dotted #ccc;
 }
 

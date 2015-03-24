@@ -90,11 +90,24 @@ processAction action model =
               sales <- model.sales + 1,
               revenue <- model.revenue + model.price,
               tasks <-
-                    model.tasks ++ [newTask (toString model.price) ],
+                    model.tasks ++ [newTask (toSale model.price model.timeLeft) ],
               price <- priceTickets model
           }
 
       Reset -> emptyModel
+
+-- Utility function for formatting sale descriptions
+toSale price timeLeft = 
+  let middle = if timeLeft > 1 
+                then " seconds"
+                else " second"
+      front = "Sold ticket for " 
+            ++ (toString price) 
+            ++ " dollars with "
+            ++ (toString timeLeft)
+      end = " remaining."
+  in
+     front ++ middle ++ end
 
 ---- Utility Functions for Updating the Price
 --priceTickets : Int -> Int -> Int -> Int -> Int
