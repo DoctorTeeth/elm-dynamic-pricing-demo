@@ -54,17 +54,6 @@ input[type="checkbox"] {
                 0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
-#todoapp:before {
-    content: '';
-    border-left: 1px solid #f5d6d6;
-    border-right: 1px solid #f5d6d6;
-    width: 2px;
-    position: absolute;
-    top: 0;
-    left: 40px;
-    height: 100%;
-}
-
 #todoapp input::-webkit-input-placeholder {
     font-style: italic;
 }
