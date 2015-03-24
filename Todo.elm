@@ -1,5 +1,5 @@
 module Todo where
-{-| TodoMVC implemented in Elm, using plain HTML and CSS for rendering.
+{-| Demo of Pricefly ticketing technology 
 
 This application is broken up into four distinct parts:
 
@@ -8,12 +8,6 @@ This application is broken up into four distinct parts:
   3. View   - a way to visualize our application state with HTML
   4. Inputs - the signals necessary to manage events
 
-This clean division of concerns is a core part of Elm. You can read more about
-this in the Pong tutorial: http://elm-lang.org/blog/Pong.elm
-
-This program is not particularly large, so definitely see the following
-document for notes on structuring more complex GUIs with Elm:
-http://elm-lang.org/learn/Architecture.elm
 -}
 
 import Html (..)
@@ -30,7 +24,7 @@ import Time (..)
 
 ---- MODEL ----
 
--- The full application state of our todo app.
+-- The full application state of our app.
 type alias Model =
     { tasks      : List Task
     , sales      : Int
@@ -54,28 +48,28 @@ emptyModel =
     , sales = 0
     , revenue = 0
     , price = 100 
-    , timeLeft = 120 
-    , totalTime = 120 
-    , tickets = 5 
+    , timeLeft = 30 
+    , totalTime = 30 
+    , tickets = 3 
     }
 
 ---- UPDATE ----
 
 -- A description of the kinds of actions that can be performed on the model of
--- our application. See the following post for more info on this pattern and
--- some alternatives: http://elm-lang.org/learn/Architecture.elm
+-- our application. 
 type Action
     = NoOp
     | MakePurchase
     | Reset 
 
--- How we update our Model on a given Action?
+-- How we update our Model on a given Input?
 processInput : Input -> Model -> Model
 processInput input model = 
   case input of 
     Clicky action -> processAction action model
     TimeStep time -> processTime time model
 
+-- How the model responds to time changes
 processTime : Time -> Model -> Model
 processTime time model = 
   if model.timeLeft <= 0 
@@ -85,6 +79,7 @@ processTime time model =
             price <- priceTickets model
           }
 
+-- How the model responds to user actions 
 processAction : Action -> Model -> Model
 processAction action model =
     case action of
@@ -109,8 +104,11 @@ priceTickets model =
       it = toFloat model.tickets
       iu = toFloat model.sales
   in if (tu / tt) > (iu / it) 
-        then model.price - 1
-        else model.price + 1
+        then transform (model.price - 1) model
+        else transform (model.price + 1) model
+
+transform suggestion model = 
+  if suggestion >= 0 then suggestion else 0
 
 ---- VIEW ----
 
@@ -124,20 +122,10 @@ view model =
           [ id "todoapp" ]
           [ lazy taskEntry "" 
           , lazy taskList model.tasks
-          , lazy2 controls model.tasks model.tickets
+          , lazy3 controls model.tasks model.tickets model.timeLeft
           ]
       , otherFooter model 
       ]
-
-onEnter : Signal.Message -> Attribute
-onEnter message =
-    on "keydown"
-      (Json.customDecoder keyCode is13)
-      (always message)
-
-is13 : Int -> Result String ()
-is13 code =
-  if code == 13 then Ok () else Err "not the right key code"
 
 taskEntry : String -> Html
 taskEntry task =
@@ -190,8 +178,8 @@ todoItem todo =
           []
       ]
 
-controls : List Task -> Int -> Html
-controls tasks tickets =
+controls : List Task -> Int -> Int -> Html
+controls tasks tickets timeLeft =
     let totalSales = List.length tasks 
         ticketsLeft = tickets - totalSales 
         ticket_ = if ticketsLeft == 1 then " ticket" else " tickets"
@@ -213,7 +201,7 @@ controls tasks tickets =
       , button
           [ class "clear-completed"
           , id "clear-completed"
-          , hidden (ticketsLeft <= 0)
+          , hidden (ticketsLeft <= 0 || timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Simulate Purchase") ]
