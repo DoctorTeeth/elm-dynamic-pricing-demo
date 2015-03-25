@@ -135,7 +135,6 @@ view model =
       [ section
           [ id "todoapp" ]
           [ lazy taskEntry "" 
-          , lazy taskList model.tasks
           ]
       ],
       div [class "div-class", id "top"] 
@@ -192,7 +191,7 @@ salesEntry : Model -> Html
 salesEntry model =
    section 
       [class "entry", id "sales" ]
-      [text "sales"]
+      [lazy taskList model.tasks]
 
 taskEntry : String -> Html
 taskEntry task =
