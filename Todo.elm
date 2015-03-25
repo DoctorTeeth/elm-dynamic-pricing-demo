@@ -149,7 +149,12 @@ inputEntry : Model -> Html
 inputEntry model =
    section 
       [class "entry", id "inputs" ]
-      [text "inputs"]
+      [text instructions]
+
+instructions = """
+This is a simplified, sped up demonstration of the ticket
+pricing algorithm.
+"""
       
 buttonEntry : Model -> Html
 buttonEntry model =
@@ -158,17 +163,17 @@ buttonEntry model =
       [ button
           [ class "clear-completed"
           , id "clear-completed"
-          , onClick (Signal.send updates Reset)
-          ]
-          [ text ("Reset") ]
-      , button
-          [ class "clear-completed"
-          , id "clear-completed"
           , hidden (model.tickets - model.sales <= 0 
                 || model.timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Simulate Purchase") ]
+      , button
+          [ class "clear-completed"
+          , id "clear-completed"
+          , onClick (Signal.send updates Reset)
+          ]
+          [ text ("Reset") ]
       ]
 
 stateEntry : Model -> Html
