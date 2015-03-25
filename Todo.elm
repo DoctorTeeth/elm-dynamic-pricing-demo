@@ -146,7 +146,7 @@ view model =
       div [class "div-class", id "bottom"] 
         [
           lazy stateEntry model,
-          lazy salesEntry model
+          lazy salesTable model
         ] 
       ]
 
@@ -154,7 +154,7 @@ inputEntry : Model -> Html
 inputEntry model =
    section 
       [class "entry", id "inputs" ]
-      [text instructions]
+      [p [id "myP"] [text instructions]]
 
 instructions = """
 This is a simplified, sped up demonstration of the ticket
@@ -186,9 +186,9 @@ stateEntry model =
    section 
       [class "entry", id "states" ]
       [
-        p [] [ text ("sales: " ++ (toString model.sales)) ]
+        p [] [ text ("price: " ++ (toString model.price)) ]
+      , p [] [ text ("sales: " ++ (toString model.sales)) ]
       , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
-      , p [] [ text ("price: " ++ (toString model.price)) ]
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
       , p [] [ text ("ticketsLeft: " ++ (toString (model.tickets - model.sales))) ]
       ]
@@ -198,6 +198,46 @@ salesEntry model =
    section 
       [class "entry", id "sales" ]
       [lazy taskList model.tasks]
+
+salesTable: Model -> Html
+salesTable model = 
+   section 
+      [class "entry", id "sales" ]
+      [
+        table []
+          [ 
+            caption []
+              [
+                text "table title"
+              ]
+          , tbody []
+              [
+                tr []
+                [
+                  td [] [text "r1c1"],
+                  td [] [text "r1c2"]
+                ],
+                tr []
+                [
+                  td [] [text "r2c1"],
+                  td [] [text "r2c2"] 
+                ]
+              ]
+          ] 
+      ]
+
+salesToRows : List Task -> Html
+salesToRows tasks =
+  tbody []
+  (List.map saleToRow tasks)
+
+saleToRow : Task -> Html
+saleToRow task = 
+  tr []
+  [
+    td [] [text "price"],
+    td [] [text "time"]
+  ]
 
 myHeader : Html
 myHeader =

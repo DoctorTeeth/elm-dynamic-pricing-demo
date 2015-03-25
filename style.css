@@ -20,7 +20,7 @@ button {
 }
 
 body {
-    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4em;
     background: #eaeaea url('bg.png');
     color: #4d4d4d;
@@ -49,20 +49,20 @@ input[type="checkbox"] {
 }
 
 #inputs {
-    border: 1px solid #ccc;
+    text-align: center;
 }
 
 #buttons {
-    border: 1px solid #ccc;
     float: right;
 }
 
 #states {
-    border: 1px solid #ccc;
+}
+
+#myp {
 }
 
 #sales {
-    border: 1px solid #ccc;
     float: right;
     overflow: auto; /* these 2 lines give us scrolly list */
     max-height: 200px; /*need to adjust this height */
