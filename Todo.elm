@@ -95,7 +95,7 @@ processAction action model =
                 revenue <- model.revenue + model.price,
                 saleList <-
                       (newSale model.price model.timeLeft) :: model.saleList,
-                price <- priceTickets model
+                price <- priceTickets {model | sales <- model.sales + 1}
             }
            else
             model
