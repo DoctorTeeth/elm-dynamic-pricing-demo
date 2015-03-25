@@ -31,6 +31,8 @@ type alias Model =
     , timeLeft   : Int
     , totalTime  : Int
     , tickets    : Int 
+    , pending    : Params 
+    , params     : Params
     }
 
 type alias Sale =
@@ -38,11 +40,26 @@ type alias Sale =
     , timeLeft : Int
     }
 
+type alias Params =
+  { minP     : Int
+  , maxP     : Int
+  , ticketsP : Int
+  , lengthP  : Int
+  }
+
 newSale : Int -> Int -> Sale 
 newSale p t =
     { price    = p 
     , timeLeft = t
     }
+
+emptyParams : Params 
+emptyParams = 
+  { minP    = 0 
+  , maxP    = 50 
+  , ticketsP = 10 
+  , lengthP = 30 
+  }
 
 emptyModel : Model
 emptyModel =
@@ -52,7 +69,9 @@ emptyModel =
     , price = 100 
     , timeLeft = 30 
     , totalTime = 30 
-    , tickets = 3 
+    , tickets = 3
+    , pending = emptyParams
+    , params = emptyParams
     }
 
 ---- UPDATE ----
