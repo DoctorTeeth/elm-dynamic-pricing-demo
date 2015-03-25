@@ -42,6 +42,33 @@ input[type="checkbox"] {
   outline: none;
 }
 
+.div-class {
+    border: 1px solid #ccc;
+}
+
+.entry {
+    display: inline-block;
+    width: 45%;
+}
+
+#inputs {
+    border: 1px solid #ccc;
+}
+
+#buttons {
+    border: 1px solid #ccc;
+    float: right;
+}
+
+#states {
+    border: 1px solid #ccc;
+}
+
+#sales {
+    border: 1px solid #ccc;
+    float: right;
+}
+
 #todoapp {
     background: #fff;
     background: rgba(255, 255, 255, 0.9);

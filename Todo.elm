@@ -142,21 +142,45 @@ view model =
       ],
       div [class "div-class", id "top"] 
         [
-          lazy augieEntry "input here",
-          lazy augieEntry "buttons here"
+          lazy inputEntry model,
+          lazy buttonEntry model 
         ],
       div [class "div-class", id "bottom"] 
         [
-          lazy augieEntry "state here",
-          lazy augieEntry "sales here"
+          lazy stateEntry model,
+          lazy salesEntry model
         ] 
       ]
 
-augieEntry : String -> Html
-augieEntry task =
-   p 
-      [ id "augieP" ]
-      [text task]
+inputEntry : Model -> Html
+inputEntry model =
+   section 
+      [class "entry", id "inputs" ]
+      [text "inputs"]
+      
+buttonEntry : Model -> Html
+buttonEntry model =
+   section 
+      [class "entry", id "buttons" ]
+      [ button
+          [ class "clear-completed"
+          , id "clear-completed"
+          , onClick (Signal.send updates Reset)
+          ]
+          [ text ("Reset") ]
+      ]
+
+stateEntry : Model -> Html
+stateEntry model =
+   section 
+      [class "entry", id "states" ]
+      [text "state"]
+      
+salesEntry : Model -> Html
+salesEntry model =
+   section 
+      [class "entry", id "sales" ]
+      [text "sales"]
 
 taskEntry : String -> Html
 taskEntry task =
