@@ -9,7 +9,7 @@ module Todo where
 -}
 
 import Html (..)
-import Html.Attributes (..)
+import Html.Attributes as A
 import Html.Events (..)
 import Html.Lazy (lazy, lazy2, lazy3)
 import Json.Decode as Json
@@ -120,20 +120,20 @@ transform suggestion model =
 
 view : Model -> Html
 view model =
-  div [ class "global"] [
+  div [ A.class "global"] [
     div
       [ ]
       [ section
-          [ id "todoapp" ]
+          [ A.id "todoapp" ]
           [ myHeader 
           ]
       ],
-      div [class "div-class", id "top"] 
+      div [A.class "div-class", A.id "top"] 
         [
           lazy inputForm model,
           lazy buttonEntry model 
         ],
-      div [class "div-class", id "bottom"] 
+      div [A.class "div-class", A.id "bottom"] 
         [
           lazy stateEntry model,
           lazy salesTable model
@@ -143,8 +143,8 @@ view model =
 inputEntry : Model -> Html
 inputEntry model =
    section 
-      [class "entry", id "inputs" ]
-      [p [id "myP"] [text instructions]]
+      [A.class "entry", A.id "inputs" ]
+      [p [A.id "myP"] [text instructions]]
 
 instructions = """
 This is a simplified, sped up demonstration of the ticket
@@ -154,7 +154,7 @@ pricing algorithm.
 inputForm : Model -> Html  
 inputForm model = 
    section 
-      [class "entry", id "inputs" ]
+      [A.class "entry", A.id "inputs" ]
       [ 
         inputCreator "Starting Price" model.tickets  
       , inputCreator "Tickets Available" model.price
@@ -166,13 +166,16 @@ inputForm model =
 
 inputCreator : String -> Int -> Html
 inputCreator str int =
-  div [class "input-div"]
+  div [A.class "input-div"]
     [ text str
     , input 
         [
-          id "myinput"
-        , placeholder "between 0 and 1000" 
-        , step 1 
+          A.id "myinput"
+        , A.placeholder "between 0 and 1000" 
+        , A.type' "number" 
+        , A.step 1 
+        , A.min "0" 
+        , A.max "1000"
         ] 
         []
     ]
@@ -180,18 +183,18 @@ inputCreator str int =
 buttonEntry : Model -> Html
 buttonEntry model =
    section 
-      [class "entry", id "buttons" ]
+      [A.class "entry", A.id "buttons" ]
       [ button
-          [ class "clear-completed"
-          , id "clear-completed"
-          , hidden (model.tickets - model.sales <= 0 
+          [ A.class "clear-completed"
+          , A.id "clear-completed"
+          , A.hidden (model.tickets - model.sales <= 0 
                 || model.timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Purchase") ]
       , button
-          [ class "clear-completed"
-          , id "clear-completed"
+          [ A.class "clear-completed"
+          , A.id "clear-completed"
           , onClick (Signal.send updates Reset)
           ]
           [ text ("Reset") ]
@@ -200,7 +203,7 @@ buttonEntry model =
 stateEntry : Model -> Html
 stateEntry model =
    section 
-      [class "entry", id "states" ]
+      [A.class "entry", A.id "states" ]
       [
         p [] [ text ("price: " ++ (toString model.price)) ]
       , p [] [ text ("sales: " ++ (toString model.sales)) ]
@@ -213,7 +216,7 @@ stateEntry model =
 salesTable: Model -> Html
 salesTable model = 
    section 
-      [class "entry", id "sales" ]
+      [A.class "entry", A.id "sales" ]
       [
         table []
           [ 

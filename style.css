@@ -60,6 +60,13 @@ input[type="checkbox"] {
 }
 
 #myinput {
+  display: block;
+  /* css 3 */
+  border-radius:10px;
+  /* mozilla */
+  -moz-border-radius:10px;
+  /* webkit */
+  -webkit-border-radius:10px;
 }
 
 .input-div {
