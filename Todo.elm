@@ -138,7 +138,6 @@ view model =
           , lazy taskList model.tasks
           , lazy3 controls model.tasks model.tickets model.timeLeft
           ]
-      , otherFooter model 
       ],
       div [class "div-class", id "top"] 
         [
@@ -273,16 +272,6 @@ controls tasks tickets timeLeft =
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Simulate Purchase") ]
-      ]
-
-otherFooter : Model -> Html
-otherFooter model =
-    footer [ id "info" ]
-      [
-        p [] [ text ("sales: " ++ (toString model.sales)) ]
-      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
-      , p [] [ text ("price: " ++ (toString model.price)) ]
-      , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
       ]
 
 ---- INPUTS ----
