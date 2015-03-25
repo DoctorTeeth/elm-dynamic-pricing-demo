@@ -1,7 +1,5 @@
 module Todo where
-{-| Demo of Pricefly ticketing technology 
-
-This application is broken up into four distinct parts:
+{-| Demo of Pricefly ticketingThis application is broken up into four distinct parts:
 
   1. Model  - a full definition of the application's state
   2. Update - a way to step the application state forward
@@ -129,7 +127,7 @@ view : Model -> Html
 view model =
   div [ class "global"] [
     div
-      [ class "todomvc-wrapper"]
+      [ ]
       [ section
           [ id "todoapp" ]
           [ myHeader 
