@@ -186,6 +186,7 @@ stateEntry model =
       , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
       , p [] [ text ("price: " ++ (toString model.price)) ]
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
+      , p [] [ text ("ticketsLeft: " ++ (toString (model.tickets - model.sales))) ]
       ]
       
 salesEntry : Model -> Html
