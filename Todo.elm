@@ -88,7 +88,7 @@ processAction action model =
       NoOp -> model
 
       MakePurchase ->
-        if model.tickets - model.sales > 0 
+        if canPurchase model 
            then
             { model |
                 sales <- model.sales + 1,
@@ -101,6 +101,12 @@ processAction action model =
             model
 
       Reset -> emptyModel
+
+canPurchase : Model -> Bool
+canPurchase model =
+  (model.tickets - model.sales > 0)
+  &&
+  (model.timeLeft > 0)
 
 ---- Utility Functions for Updating the Price
 --priceTickets : Int -> Int -> Int -> Int -> Int
@@ -171,7 +177,6 @@ inputCreator str int =
     , input 
         [
           A.id "myinput"
-        , A.placeholder "between 0 and 1000" 
         , A.type' "number" 
         , A.step 1 
         , A.min "0" 
