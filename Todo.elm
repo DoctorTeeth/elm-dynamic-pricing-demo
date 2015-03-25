@@ -134,7 +134,7 @@ view model =
       ]
       [ section
           [ id "todoapp" ]
-          [ lazy taskEntry "" 
+          [ myHeader 
           ]
       ],
       div [class "div-class", id "top"] 
@@ -193,8 +193,8 @@ salesEntry model =
       [class "entry", id "sales" ]
       [lazy taskList model.tasks]
 
-taskEntry : String -> Html
-taskEntry task =
+myHeader : Html
+myHeader =
     header 
       [ id "header" ]
       [ h1 [] [ text "Pricefly" ]
@@ -234,35 +234,6 @@ todoItem todo =
           , name "title"
           ]
           []
-      ]
-
-controls : List Task -> Int -> Int -> Html
-controls tasks tickets timeLeft =
-    let totalSales = List.length tasks 
-        ticketsLeft = tickets - totalSales 
-        ticket_ = if ticketsLeft == 1 then " ticket" else " tickets"
-    in
-    footer
-      [ id "footer"
-      ]
-      [ span
-          [ id "todo-count" ]
-          [ strong [] [ text (toString ticketsLeft) ]
-          , text (ticket_ ++ " left")
-          ]
-      , button
-          [ class "clear-completed"
-          , id "clear-completed"
-          , onClick (Signal.send updates Reset)
-          ]
-          [ text ("Reset") ]
-      , button
-          [ class "clear-completed"
-          , id "clear-completed"
-          , hidden (ticketsLeft <= 0 || timeLeft <= 0)
-          , onClick (Signal.send updates MakePurchase)
-          ]
-          [ text ("Simulate Purchase") ]
       ]
 
 ---- INPUTS ----
