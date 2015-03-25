@@ -67,6 +67,8 @@ input[type="checkbox"] {
 #sales {
     border: 1px solid #ccc;
     float: right;
+    overflow: auto; /* these 2 lines give us scrolly list */
+    max-height: 200px; /*need to adjust this height */
 }
 
 #todoapp {

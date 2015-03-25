@@ -129,9 +129,7 @@ view : Model -> Html
 view model =
   div [ class "global"] [
     div
-      [ class "todomvc-wrapper"
-      , style [ ("visibility", "hidden") ]
-      ]
+      [ class "todomvc-wrapper"]
       [ section
           [ id "todoapp" ]
           [ myHeader 
