@@ -136,7 +136,6 @@ view model =
           [ id "todoapp" ]
           [ lazy taskEntry "" 
           , lazy taskList model.tasks
-          , lazy3 controls model.tasks model.tickets model.timeLeft
           ]
       ],
       div [class "div-class", id "top"] 
@@ -200,14 +199,6 @@ taskEntry task =
     header 
       [ id "header" ]
       [ h1 [] [ text "Pricefly" ]
-      , input
-          [ id "new-todo"
-          , placeholder "Get rid of me"
-          , autofocus True
-          , value task
-          , name "newTodo"
-          ]
-          []
       ]
 
 taskList : List Task -> Html
