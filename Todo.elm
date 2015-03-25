@@ -167,7 +167,7 @@ buttonEntry model =
                 || model.timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
-          [ text ("Simulate Purchase") ]
+          [ text ("Purchase") ]
       , button
           [ class "clear-completed"
           , id "clear-completed"
