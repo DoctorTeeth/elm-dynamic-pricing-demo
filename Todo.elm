@@ -84,13 +84,18 @@ processAction action model =
       NoOp -> model
 
       MakePurchase ->
-          { model |
-              sales <- model.sales + 1,
-              revenue <- model.revenue + model.price,
-              tasks <-
-                    (newTask (toSale model.price model.timeLeft) ) :: model.tasks,
-              price <- priceTickets model
-          }
+        if model.tickets - model.sales > 0 
+           then
+            { model |
+                sales <- model.sales + 1,
+                revenue <- model.revenue + model.price,
+                tasks <-
+                      (newTask (toSale model.price 
+                        model.timeLeft) ) :: model.tasks,
+                price <- priceTickets model
+            }
+           else
+            model
 
       Reset -> emptyModel
 
