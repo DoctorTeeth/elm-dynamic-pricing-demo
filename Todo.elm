@@ -182,7 +182,12 @@ stateEntry : Model -> Html
 stateEntry model =
    section 
       [class "entry", id "states" ]
-      [text "state"]
+      [
+        p [] [ text ("sales: " ++ (toString model.sales)) ]
+      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
+      , p [] [ text ("price: " ++ (toString model.price)) ]
+      , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
+      ]
       
 salesEntry : Model -> Html
 salesEntry model =
