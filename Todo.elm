@@ -24,7 +24,7 @@ import Time (..)
 
 -- The full application state of our app.
 type alias Model =
-    { tasks      : List Task
+    { saleList   : List Sale 
     , sales      : Int
     , revenue    : Int
     , price      : Int
@@ -33,16 +33,16 @@ type alias Model =
     , tickets    : Int 
     }
 
-type alias Task =
+type alias Sale =
     { description : String}
 
-newTask : String -> Task
-newTask desc =
+newSale : String -> Sale 
+newSale desc =
     { description = desc}
 
 emptyModel : Model
 emptyModel =
-    { tasks = []
+    { saleList = []
     , sales = 0
     , revenue = 0
     , price = 100 
@@ -89,9 +89,9 @@ processAction action model =
             { model |
                 sales <- model.sales + 1,
                 revenue <- model.revenue + model.price,
-                tasks <-
-                      (newTask (toSale model.price 
-                        model.timeLeft) ) :: model.tasks,
+                saleList <-
+                      (newSale (toSale model.price 
+                        model.timeLeft) ) :: model.saleList,
                 price <- priceTickets model
             }
            else
@@ -193,12 +193,6 @@ stateEntry model =
       , p [] [ text ("ticketsLeft: " ++ (toString (model.tickets - model.sales))) ]
       ]
       
-salesEntry : Model -> Html
-salesEntry model =
-   section 
-      [class "entry", id "sales" ]
-      [lazy taskList model.tasks]
-
 salesTable: Model -> Html
 salesTable model = 
    section 
@@ -210,17 +204,17 @@ salesTable model =
               [
                 text "table title"
               ]
-          , salesToRows model.tasks 
+          , salesToRows model.saleList
           ] 
       ]
 
-salesToRows : List Task -> Html
-salesToRows tasks =
+salesToRows : List Sale -> Html
+salesToRows sales =
   tbody []
-  (List.map saleToRow tasks)
+  (List.map saleToRow sales)
 
-saleToRow : Task -> Html
-saleToRow task = 
+saleToRow : Sale -> Html
+saleToRow sale = 
   tr []
   [
     td [] [text "price"],
@@ -230,42 +224,6 @@ saleToRow task =
 myHeader : Html
 myHeader =
       h1 [] [ text "Pricefly"]
-
-taskList : List Task -> Html
-taskList tasks =
-    let cssVisibility = if List.isEmpty tasks 
-                           then "hidden" 
-                           else "visible"
-    in
-    section
-      [ id "main"
-      , style [ ("visibility", cssVisibility) ]
-      ]
-      [ ul
-          [ id "todo-list" ]
-          (List.map todoItem tasks)
-      ]
-
-todoItem : Task -> Html
-todoItem todo =
-    let className = ""
-    in
-
-    li
-      [ class className ]
-      [ div
-          [ class "view" ]
-          [ label
-              [ onDoubleClick (Signal.send updates (NoOp)) ]
-              [ text todo.description ]
-          ]
-      , input
-          [ class "edit"
-          , value todo.description
-          , name "title"
-          ]
-          []
-      ]
 
 ---- INPUTS ----
 
