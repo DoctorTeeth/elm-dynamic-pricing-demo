@@ -210,19 +210,7 @@ salesTable model =
               [
                 text "table title"
               ]
-          , tbody []
-              [
-                tr []
-                [
-                  td [] [text "r1c1"],
-                  td [] [text "r1c2"]
-                ],
-                tr []
-                [
-                  td [] [text "r2c1"],
-                  td [] [text "r2c2"] 
-                ]
-              ]
+          , salesToRows model.tasks 
           ] 
       ]
 
