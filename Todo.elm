@@ -148,12 +148,15 @@ makePrice model =
       tu = toFloat (model.totalTime - model.timeLeft)
       it = toFloat model.tickets
       iu = toFloat model.sales
-  in if (tu / tt) > (iu / it) 
-        then transform (model.price - 1) model
-        else transform (model.price + 1) model
-
-transform suggestion model = 
-  if suggestion >= 0 then suggestion else 0
+      t' = tu / tt
+      i' = iu / it
+      v  = t' - i'
+      a  = toFloat model.maxP
+      b  = toFloat model.minP
+      v' = (v + 1) / 2
+      fp = b * v' + a * (1 - v') 
+  in 
+      round fp  
 
 ---- VIEW ----
 
