@@ -168,6 +168,14 @@ buttonEntry model =
           , onClick (Signal.send updates Reset)
           ]
           [ text ("Reset") ]
+      , button
+          [ class "clear-completed"
+          , id "clear-completed"
+          , hidden (model.tickets - model.sales <= 0 
+                || model.timeLeft <= 0)
+          , onClick (Signal.send updates MakePurchase)
+          ]
+          [ text ("Simulate Purchase") ]
       ]
 
 stateEntry : Model -> Html
