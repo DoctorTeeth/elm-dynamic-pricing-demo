@@ -130,7 +130,7 @@ view model =
       ],
       div [class "div-class", id "top"] 
         [
-          lazy inputEntry model,
+          lazy inputForm model,
           lazy buttonEntry model 
         ],
       div [class "div-class", id "bottom"] 
@@ -150,7 +150,33 @@ instructions = """
 This is a simplified, sped up demonstration of the ticket
 pricing algorithm.
 """
+
+inputForm : Model -> Html  
+inputForm model = 
+   section 
+      [class "entry", id "inputs" ]
+      [ 
+        inputCreator "Starting Price" model.tickets  
+      , inputCreator "Tickets Available" model.price
+      , inputCreator "Max Discount" model.price
+      , inputCreator "Max Markup" model.price
+      , inputCreator "Length of Sale" model.price
+      ]
       
+
+inputCreator : String -> Int -> Html
+inputCreator str int =
+  div [class "input-div"]
+    [ text str
+    , input 
+        [
+          id "myinput"
+        , placeholder "between 0 and 1000" 
+        , step 1 
+        ] 
+        []
+    ]
+
 buttonEntry : Model -> Html
 buttonEntry model =
    section 

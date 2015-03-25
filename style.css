@@ -59,8 +59,13 @@ input[type="checkbox"] {
 #states {
 }
 
-#myp {
+#myinput {
 }
+
+.input-div {
+  display: inline;
+}
+
 
 #sales {
     float: right;
