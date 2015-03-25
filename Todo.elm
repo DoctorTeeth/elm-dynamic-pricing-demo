@@ -31,8 +31,14 @@ type alias Model =
     , timeLeft   : Int
     , totalTime  : Int
     , tickets    : Int 
-    , pending    : Params 
-    , params     : Params
+    , minP       : Int
+    , maxP       : Int
+    , ticketsP   : Int
+    , lengthP    : Int
+    , minS       : String 
+    , maxS       : String 
+    , ticketsS   : String 
+    , lengthS    : String 
     }
 
 type alias Sale =
@@ -40,26 +46,11 @@ type alias Sale =
     , timeLeft : Int
     }
 
-type alias Params =
-  { minP     : Int
-  , maxP     : Int
-  , ticketsP : Int
-  , lengthP  : Int
-  }
-
 newSale : Int -> Int -> Sale 
 newSale p t =
     { price    = p 
     , timeLeft = t
     }
-
-emptyParams : Params 
-emptyParams = 
-  { minP    = 0 
-  , maxP    = 50 
-  , ticketsP = 10 
-  , lengthP = 30 
-  }
 
 emptyModel : Model
 emptyModel =
@@ -70,8 +61,14 @@ emptyModel =
     , timeLeft = 30 
     , totalTime = 30 
     , tickets = 3
-    , pending = emptyParams
-    , params = emptyParams
+    , minP    = 0 
+    , maxP    = 50 
+    , ticketsP = 10 
+    , lengthP = 30 
+    , minS    = "0" 
+    , maxS    = "50" 
+    , ticketsS = "10" 
+    , lengthS = "30" 
     }
 
 ---- UPDATE ----
@@ -82,6 +79,7 @@ type Action
     = NoOp
     | MakePurchase
     | Reset 
+    | UpdateS String String 
 
 -- How we update our Model on a given Input?
 processInput : Input -> Model -> Model
@@ -118,6 +116,17 @@ processAction action model =
             }
            else
             model
+
+      UpdateS desc str ->
+        case desc of
+          "Min Price" ->
+            {model | minS <- str}
+          "Max Price" ->
+            {model | maxS <- str}
+          "Tickets" ->
+            {model | ticketsS <- str}
+          "Seconds" ->
+            {model | lengthS <- str}
 
       Reset -> emptyModel
 
@@ -186,25 +195,22 @@ inputForm model =
    section 
       [A.class "entry", A.id "inputs" ]
       [ 
-        inputCreator "Starting Price" model.tickets  
-      , inputCreator "Tickets Available" model.price
-      , inputCreator "Max Discount" model.price
-      , inputCreator "Max Markup" model.price
-      , inputCreator "Length of Sale" model.price
+        inputCreator "Min Price" model.minS 
+      , inputCreator "Max Price" model.maxS
+      , inputCreator "Tickets" model.ticketsS
+      , inputCreator "Seconds" model.lengthS
       ]
       
-
-inputCreator : String -> Int -> Html
-inputCreator str int =
+inputCreator : String -> String -> Html
+inputCreator desc str =
   div [A.class "input-div"]
-    [ text str
+    [ text desc
     , input 
         [
           A.id "myinput"
-        , A.type' "number" 
-        , A.step 1 
-        , A.min "0" 
-        , A.max "1000"
+        , A.value str
+        , on "input" targetValue 
+          (Signal.send updates << (UpdateS desc))
         ] 
         []
     ]
@@ -240,6 +246,10 @@ stateEntry model =
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
       , p [] [ text ("ticketsLeft: " ++
           (toString (model.tickets - model.sales))) ]
+      , p [] [ text ("minS: " ++ model.minS) ]
+      , p [] [ text ("maxS: " ++ model.maxS) ]
+      , p [] [ text ("ticketsS: " ++ model.ticketsS) ]
+      , p [] [ text ("lengthS: " ++ model.lengthS) ]
       ]
       
 salesTable: Model -> Html
