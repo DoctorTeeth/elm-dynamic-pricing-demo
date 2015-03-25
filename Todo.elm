@@ -193,7 +193,16 @@ salesTable model =
           [ 
             caption []
               [
-                text "table title"
+                text "Ticket Sales"
+              ],
+            thead [] --represents the block of rows that
+              --describes column summaries of the table
+              [
+                tr [] -- the row with column headers
+                [
+                  td [] [text "Price"],
+                  td [] [text "Seconds Left"]
+                ]
               ]
           , salesToRows model.saleList
           ] 
