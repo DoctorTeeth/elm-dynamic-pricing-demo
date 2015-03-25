@@ -193,10 +193,7 @@ salesEntry model =
 
 myHeader : Html
 myHeader =
-    header 
-      [ id "header" ]
-      [ h1 [] [ text "Pricefly" ]
-      ]
+      h1 [] [ text "Pricefly"]
 
 taskList : List Task -> Html
 taskList tasks =
