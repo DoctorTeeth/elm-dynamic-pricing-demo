@@ -34,11 +34,15 @@ type alias Model =
     }
 
 type alias Sale =
-    { description : String}
+    { price    : Int
+    , timeLeft : Int
+    }
 
-newSale : String -> Sale 
-newSale desc =
-    { description = desc}
+newSale : Int -> Int -> Sale 
+newSale p t =
+    { price    = p 
+    , timeLeft = t
+    }
 
 emptyModel : Model
 emptyModel =
@@ -90,27 +94,13 @@ processAction action model =
                 sales <- model.sales + 1,
                 revenue <- model.revenue + model.price,
                 saleList <-
-                      (newSale (toSale model.price 
-                        model.timeLeft) ) :: model.saleList,
+                      (newSale model.price model.timeLeft) :: model.saleList,
                 price <- priceTickets model
             }
            else
             model
 
       Reset -> emptyModel
-
--- Utility function for formatting sale descriptions
-toSale price timeLeft = 
-  let middle = if timeLeft > 1 
-                then " seconds"
-                else " second"
-      front = "Sold ticket for " 
-            ++ (toString price) 
-            ++ " dollars with "
-            ++ (toString timeLeft)
-      end = " remaining."
-  in
-     front ++ middle ++ end
 
 ---- Utility Functions for Updating the Price
 --priceTickets : Int -> Int -> Int -> Int -> Int
@@ -190,7 +180,8 @@ stateEntry model =
       , p [] [ text ("sales: " ++ (toString model.sales)) ]
       , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
-      , p [] [ text ("ticketsLeft: " ++ (toString (model.tickets - model.sales))) ]
+      , p [] [ text ("ticketsLeft: " ++
+          (toString (model.tickets - model.sales))) ]
       ]
       
 salesTable: Model -> Html
@@ -217,8 +208,8 @@ saleToRow : Sale -> Html
 saleToRow sale = 
   tr []
   [
-    td [] [text "price"],
-    td [] [text "time"]
+    td [] [text (toString sale.price)   ],
+    td [] [text (toString sale.timeLeft)]
   ]
 
 myHeader : Html
