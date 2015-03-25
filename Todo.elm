@@ -111,6 +111,11 @@ canPurchase model =
 ---- Utility Functions for Updating the Price
 --priceTickets : Int -> Int -> Int -> Int -> Int
 priceTickets model = 
+  if canPrice model then makePrice model else model.price
+
+canPrice = canPurchase
+  
+makePrice model = 
   let tt = toFloat model.totalTime
       tu = toFloat (model.totalTime - model.timeLeft)
       it = toFloat model.tickets
