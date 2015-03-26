@@ -23,7 +23,7 @@ body {
     display: inline-block;
     width: 45%;
     height: 200px;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 #inputs {
@@ -35,6 +35,7 @@ body {
     display: block;
 }
 
+/*
 #purchase-button {
   background: rgb(28,184,65);
 } 
@@ -42,8 +43,9 @@ body {
 #reset-button {
   background: rgb(66,184,221);
 }
+*/
 
-#purchase-button, #reset-button{
+#purchase-button, #reset-button, #no-purchase{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -55,12 +57,16 @@ body {
     font-size: 20px;
     padding: 0 10px;
     border-radius: 3px;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
     display: block;
 }
 
+#no-purchase {
+  color: gray;
+}
+
 form {
-  width: 80%;
+  width: 90%;
   margin 0 auto;
 }
 
@@ -69,13 +75,13 @@ label, input {
 }
 
 label {
-  width: 30%;
+  width: 40%;
   text-align: right;
 }
 
 label + input {
-  width: 30%;
-  margin: 0 30% 0 4%;
+  width: 20%;
+  margin: 0 10% 0 4%;
 }
 
 input + input {
@@ -83,6 +89,9 @@ input + input {
 }
 
 input {
+  font-size: 16px;
+  border-radius: 6px;
+  border 0;
 }
 
 #states {
@@ -94,6 +103,7 @@ table.tableSection {
   width: 100%;
   background-color: white;
   border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 table.tableSection thead, table.tableSection tbody {
@@ -159,28 +169,6 @@ h1 {
 
 #header {
     padding-top: 15px;
-}
-
-#clear-completed {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    position: relative;
-    line-height: 40px;
-    text-decoration: none;
-    background: rgba(0, 0, 0, 0.1);
-    font-size: 20px;
-    padding: 0 10px;
-    border-radius: 3px;
-    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
-    display: block;
-    width: 80%;
-}
-
-#clear-completed:hover {
-    background: rgba(0, 0, 0, 0.15);
-    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 /*

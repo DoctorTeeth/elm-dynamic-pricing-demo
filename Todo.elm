@@ -92,7 +92,7 @@ processInput input model =
 -- How the model responds to time changes
 processTime : Time -> Model -> Model
 processTime time model = 
-  if model.timeLeft <= 0 
+  if not (canPurchase model) 
      then model
      else {model | 
             timeLeft <- model.timeLeft - 1,
@@ -257,19 +257,31 @@ buttonEntry model =
       [A.class "entry", A.id "buttons" ]
       [ button
           [ A.class "pure-button"
-          , A.id "purchase-button" 
+          , A.id (purchaseID model) 
           , A.hidden (model.tickets - model.sales <= 0 
                 || model.timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
-          [ text ("Purchase") ]
+          [ text (purchaseTxt model) ]
       , button
           [ A.class "pure-button"
           , A.id "reset-button" 
           , onClick (Signal.send updates Reset)
           ]
-          [ text ("Reset") ]
+          [ text ("Start") ]
       ]
+
+purchaseID : Model -> String
+purchaseID model = 
+  if canPurchase model
+     then "purchase-button"
+     else "no-purchase"
+
+purchaseTxt : Model -> String
+purchaseTxt model = 
+  if canPurchase model
+     then "Purchase"
+     else "Sale Over"
 
 stateEntry : Model -> Html
 stateEntry model =
@@ -280,7 +292,6 @@ stateEntry model =
       , p [] [ text ("Seconds Remaining: " ++ (toString model.timeLeft)) ]
       , p [] [ text ("Tickets Remaining: " ++
           (toString (model.tickets - model.sales))) ]
-      , p [] [ text ("Tickets Sold: " ++ (toString model.sales)) ]
       , p [] [ text ("Revenue: " ++ (toString model.revenue)) ]
       ]
       

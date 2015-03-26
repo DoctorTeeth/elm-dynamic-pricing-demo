@@ -10292,11 +10292,6 @@ Elm.Todo.make = function (_elm) {
                    ,A2($Html.p,
                    _L.fromArray([]),
                    _L.fromArray([$Html.text(A2($Basics._op["++"],
-                   "Tickets Sold: ",
-                   $Basics.toString(model.sales)))]))
-                   ,A2($Html.p,
-                   _L.fromArray([]),
-                   _L.fromArray([$Html.text(A2($Basics._op["++"],
                    "Revenue: ",
                    $Basics.toString(model.revenue)))]))]));
    };
@@ -10333,6 +10328,12 @@ Elm.Todo.make = function (_elm) {
    var canPrice = canPurchase;
    var priceTickets = function (model) {
       return canPrice(model) ? makePrice(model) : model.price;
+   };
+   var purchaseID = function (model) {
+      return canPurchase(model) ? "purchase-button" : "no-purchase";
+   };
+   var purchaseTxt = function (model) {
+      return canPurchase(model) ? "Purchase" : "Sale Over";
    };
    var toNumber = F2(function (str,
    $default) {
@@ -10386,10 +10387,10 @@ Elm.Todo.make = function (_elm) {
    });
    var processTime = F2(function (time,
    model) {
-      return _U.cmp(model.timeLeft,
-      0) < 1 ? model : _U.replace([["timeLeft"
-                                   ,model.timeLeft - 1]
-                                  ,["price",priceTickets(model)]],
+      return $Basics.not(canPurchase(model)) ? model : _U.replace([["timeLeft"
+                                                                   ,model.timeLeft - 1]
+                                                                  ,["price"
+                                                                   ,priceTickets(model)]],
       model);
    });
    var UpdateS = F2(function (a,
@@ -10451,21 +10452,21 @@ Elm.Todo.make = function (_elm) {
                    ,$Html$Attributes.id("buttons")]),
       _L.fromArray([A2($Html.button,
                    _L.fromArray([$Html$Attributes.$class("pure-button")
-                                ,$Html$Attributes.id("purchase-button")
+                                ,$Html$Attributes.id(purchaseID(model))
                                 ,$Html$Attributes.hidden(_U.cmp(model.tickets - model.sales,
                                 0) < 1 || _U.cmp(model.timeLeft,
                                 0) < 1)
                                 ,$Html$Events.onClick(A2($Signal.send,
                                 updates,
                                 MakePurchase))]),
-                   _L.fromArray([$Html.text("Purchase")]))
+                   _L.fromArray([$Html.text(purchaseTxt(model))]))
                    ,A2($Html.button,
                    _L.fromArray([$Html$Attributes.$class("pure-button")
                                 ,$Html$Attributes.id("reset-button")
                                 ,$Html$Events.onClick(A2($Signal.send,
                                 updates,
                                 Reset))]),
-                   _L.fromArray([$Html.text("Reset")]))]));
+                   _L.fromArray([$Html.text("Start")]))]));
    };
    var view = function (model) {
       return A2($Html.div,
@@ -10671,6 +10672,8 @@ Elm.Todo.make = function (_elm) {
                       ,inputForm: inputForm
                       ,inputCreator: inputCreator
                       ,buttonEntry: buttonEntry
+                      ,purchaseID: purchaseID
+                      ,purchaseTxt: purchaseTxt
                       ,stateEntry: stateEntry
                       ,salesTable: salesTable
                       ,salesToRows: salesToRows
