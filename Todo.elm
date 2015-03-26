@@ -228,26 +228,28 @@ inputForm : Model -> Html
 inputForm model = 
    section 
       [A.class "entry", A.id "inputs" ]
-      [ 
-        inputCreator "Min Price" model.minS 
-      , inputCreator "Max Price" model.maxS
-      , inputCreator "Tickets" model.ticketsS
-      , inputCreator "Seconds" model.lengthS
+      [
+        form []
+        [
+          label [] [text "Min Price"]
+        , inputCreator "Min Price" model.minS
+        , label [] [text "Max Price"]
+        , inputCreator "Max Price" model.maxS
+        , label [] [text "Tickets"]
+        , inputCreator "Tickets" model.ticketsS
+        , label [] [text "Seconds"]
+        , inputCreator "Seconds" model.lengthS
+        ]
       ]
       
 inputCreator : String -> String -> Html
 inputCreator desc str =
-  div [A.class "input-div"]
-    [ text desc
-    , input 
-        [
-          A.id "myinput"
-        , A.value str
-        , on "input" targetValue 
-          (Signal.send updates << (UpdateS desc))
-        ] 
-        []
-    ]
+    input 
+      [ A.value str
+      , on "input" targetValue 
+        (Signal.send updates << (UpdateS desc))
+      ] 
+      []
 
 buttonEntry : Model -> Html
 buttonEntry model =
