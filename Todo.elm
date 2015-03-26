@@ -287,7 +287,7 @@ salesTable model =
    section 
       [A.class "entry", A.id "sales" ]
       [
-        table []
+        table [A.class "tableSection"]
           [ 
             caption []
               [

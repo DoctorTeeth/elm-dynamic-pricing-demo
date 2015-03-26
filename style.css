@@ -73,11 +73,33 @@ input[type="checkbox"] {
   display: inline;
 }
 
+table.tableSection {
+  display: table;
+  width: 100%;
+}
+
+table.tableSection thead, table.tableSection tbody {
+  width: 100%;
+  float: left;
+}
+
+table.tableSection tbody {
+  overflow: auto;
+  height: 150px;
+}
+
+table.tableSection tr {
+  width: 100%;
+  display : table;
+  text-align: left;
+}
+
+table.tableSection th, table.tableSection td {
+  width: 48%;
+}
 
 #sales {
     float: right;
-    overflow: auto; /* these 2 lines give us scrolly list */
-    max-height: 200px; /*need to adjust this height */
 }
 
 #todoapp {
