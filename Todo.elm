@@ -275,15 +275,11 @@ stateEntry model =
       [A.class "entry", A.id "states" ]
       [
         p [] [ text ("price: " ++ (toString model.price)) ]
-      , p [] [ text ("sales: " ++ (toString model.sales)) ]
-      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
       , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
       , p [] [ text ("ticketsLeft: " ++
           (toString (model.tickets - model.sales))) ]
-      , p [] [ text ("minS: " ++ model.minS) ]
-      , p [] [ text ("maxS: " ++ model.maxS) ]
-      , p [] [ text ("ticketsS: " ++ model.ticketsS) ]
-      , p [] [ text ("lengthS: " ++ model.lengthS) ]
+      , p [] [ text ("sales: " ++ (toString model.sales)) ]
+      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
       ]
       
 salesTable: Model -> Html
