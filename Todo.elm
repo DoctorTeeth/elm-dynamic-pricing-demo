@@ -263,6 +263,7 @@ buttonEntry model =
           [ text ("Purchase") ]
       , button
           [ A.class "pure-button"
+          , A.id "reset-button" 
           , onClick (Signal.send updates Reset)
           ]
           [ text ("Reset") ]
