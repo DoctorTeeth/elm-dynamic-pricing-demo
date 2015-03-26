@@ -254,16 +254,15 @@ buttonEntry model =
    section 
       [A.class "entry", A.id "buttons" ]
       [ button
-          [ A.class "clear-completed"
-          , A.id "clear-completed"
+          [ A.class "pure-button"
+          , A.id "purchase-button" 
           , A.hidden (model.tickets - model.sales <= 0 
                 || model.timeLeft <= 0)
           , onClick (Signal.send updates MakePurchase)
           ]
           [ text ("Purchase") ]
       , button
-          [ A.class "clear-completed"
-          , A.id "clear-completed"
+          [ A.class "pure-button"
           , onClick (Signal.send updates Reset)
           ]
           [ text ("Reset") ]

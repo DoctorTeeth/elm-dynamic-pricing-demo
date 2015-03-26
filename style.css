@@ -22,7 +22,7 @@ button {
 body {
     font: 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4em;
-    background: #eaeaea url('bg.png');
+    /*background: #eaeaea url('bg.png');*/
     color: #4d4d4d;
     width: 550px;
     margin: 0 auto;
@@ -54,7 +54,12 @@ input[type="checkbox"] {
 
 #buttons {
     float: right;
+    display: block;
 }
+
+#purchase-button {
+  background: rgb(28,184,65);
+} 
 
 #states {
 }
