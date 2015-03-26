@@ -276,12 +276,12 @@ stateEntry model =
    section 
       [A.class "entry", A.id "states" ]
       [
-        p [] [ text ("price: " ++ (toString model.price)) ]
-      , p [] [ text ("timeLeft: " ++ (toString model.timeLeft)) ]
-      , p [] [ text ("ticketsLeft: " ++
+        p [] [ text ("Price: " ++ (toString model.price)) ]
+      , p [] [ text ("Seconds Remaining: " ++ (toString model.timeLeft)) ]
+      , p [] [ text ("Tickets Remaining: " ++
           (toString (model.tickets - model.sales))) ]
-      , p [] [ text ("sales: " ++ (toString model.sales)) ]
-      , p [] [ text ("revenue: " ++ (toString model.revenue)) ]
+      , p [] [ text ("Tickets Sold: " ++ (toString model.sales)) ]
+      , p [] [ text ("Revenue: " ++ (toString model.revenue)) ]
       ]
       
 salesTable: Model -> Html
