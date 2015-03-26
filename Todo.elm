@@ -16,6 +16,7 @@ import Json.Decode as Json
 import List
 import Maybe
 import Signal
+import Char 
 import String
 import Window
 import Time (..)
@@ -60,7 +61,7 @@ emptyModel =
     , price = 25 
     , timeLeft = 30 
     , totalTime = 30 
-    , tickets = 3
+    , tickets = 10 
     , minP    = 0 
     , maxP    = 50 
     , ticketsP = 10 
@@ -128,7 +129,37 @@ processAction action model =
           "Seconds" ->
             {model | lengthS <- str}
 
-      Reset -> emptyModel
+      Reset -> mergeModels model emptyModel
+
+toNumber : String -> Int -> Int
+toNumber str default =
+  let res = String.toInt str
+  in case res of
+    Err e -> default
+    Ok v -> v
+
+mergeModels : Model -> Model -> Model
+mergeModels old new =
+  let newMin     = toNumber old.minS 0
+      newMax'    = toNumber old.maxS 100
+      newTickets = toNumber old.ticketsS 10
+      newLength  = toNumber old.lengthS 60
+      newMax = if newMax' < newMin then newMin else newMax'   
+  in
+     {new | 
+        minS <- toString newMin,
+        maxS <- toString newMax,
+        ticketsS <- toString newTickets,
+        lengthS <- toString newLength,
+        minP <- newMin,
+        maxP <- newMax,
+        ticketsP <- newTickets,
+        lengthP <- newLength,
+        price <- round ( ( (toFloat newMin) + (toFloat newMax)) / 2),
+        timeLeft <- newLength,
+        totalTime <- newLength,
+        tickets <- newTickets
+     }
 
 canPurchase : Model -> Bool
 canPurchase model =
