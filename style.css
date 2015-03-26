@@ -86,12 +86,14 @@ input {
 }
 
 #states {
-  font-size: 16px;
+  font-size: 20px;
 }
 
 table.tableSection {
   display: table;
   width: 100%;
+  background-color: white;
+  border-radius: 5px;
 }
 
 table.tableSection thead, table.tableSection tbody {
@@ -99,15 +101,30 @@ table.tableSection thead, table.tableSection tbody {
   float: left;
 }
 
+table.tableSection thead {
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #e4e4e4;
+}
+
 table.tableSection tbody {
   overflow: auto;
-  height: 150px;
+  height: 130px;
 }
 
 table.tableSection tr {
   width: 100%;
   display : table;
-  text-align: left;
+  text-align: center;
+}
+
+caption {
+  padding: 4px;
+  font-size: 1.5em;
+}
+
+table.tableSection tr:nth-child(even){
+  background-color: #E4E4E4;
 }
 
 table.tableSection th, table.tableSection td {
