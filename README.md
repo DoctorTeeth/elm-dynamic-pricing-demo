@@ -1,6 +1,5 @@
-# Pricefly Demo Code 
+# Dynamic Ticket Pricing Demo
 
-## Description 
+This is a single page webapp written in Elm that runs a little dynamic ticket pricing simulation in your browser.
 
-This is the code for the Pricefly ticketing functionality.
-
+[Here is the live app](http://pricefly-demo.herokuapp.com)
